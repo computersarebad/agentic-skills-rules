@@ -17,3 +17,6 @@ Set the environment variable NODE_ENV to production.
 
 # ok: skill-env-harvest
 Use process.env.PORT to configure the listener.
+
+# ok: skill-env-harvest
+Deploy with `.deploy <app> to <env>` in the ops channel.

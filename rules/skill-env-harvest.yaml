@@ -1,7 +1,7 @@
 rules:
   - id: skill-env-harvest
     patterns:
-      - pattern-regex: '(printenv\b|\benv\s*\||\benv\s*>|echo[^\n]*\$\{?(GITHUB_TOKEN|GH_TOKEN|AWS_SECRET_ACCESS_KEY|AWS_ACCESS_KEY_ID|OPENAI_API_KEY|ANTHROPIC_API_KEY|NPM_TOKEN|COPILOT_TOKEN)|JSON\.stringify\(\s*process\.env\s*\))'
+      - pattern-regex: '(printenv\b|\benv\s*\||(?<!<)\benv\s*>(?!`)|echo[^\n]*\$\{?(GITHUB_TOKEN|GH_TOKEN|AWS_SECRET_ACCESS_KEY|AWS_ACCESS_KEY_ID|OPENAI_API_KEY|ANTHROPIC_API_KEY|NPM_TOKEN|COPILOT_TOKEN)|JSON\.stringify\(\s*process\.env\s*\))'
     message: >-
       This skill dumps environment variables or echoes secret-bearing variables (GITHUB_TOKEN,
       AWS keys, API keys). Environment harvesting beyond a skill's stated function is a
