@@ -30,6 +30,8 @@ jobs:
         run: semgrep scan --validate --config rules/
       - name: Run rule tests
         run: semgrep scan --test rules/
+      - name: Self-scan shipped skill (must be clean)
+        run: semgrep scan --config rules/ --metrics=off --error skills/
 
   actionlint:
     runs-on: ubuntu-latest

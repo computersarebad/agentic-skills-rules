@@ -152,6 +152,21 @@ command — so treat them as review queues, not verdicts.
 - **Emoji zero-width joiners** (`skill-hidden-unicode`): handled — ZWJ is only
   flagged when adjacent to ASCII text, so emoji sequences like 🏴‍☠️ don't fire.
 
+### Agent-assisted triage (skill)
+
+Static rules are intentionally high-recall, so findings need triage. This repo
+ships an agent skill — [`skills/scan-agent-skills/`](skills/scan-agent-skills/SKILL.md) —
+that has an AI coding agent run the scan and triage each finding in context
+(real / needs-human / benign), applying the known false-positive classes below.
+Install it by copying the directory into your agent's skills location, e.g.
+`~/.copilot/skills/`, `~/.claude/skills/`, or `~/.codex/skills/`, then ask the
+agent to scan a repo's skills.
+
+The shipped skill is written to produce zero findings against these rules, and
+CI enforces that (`semgrep scan --config rules/ --error skills/`). When you
+scan a tree containing a checkout of this repo, exclude the checkout — the
+test fixtures in `rules/` intentionally trigger every rule.
+
 ### What static rules cannot catch
 
 Per [AST08 — Poor Scanning](https://owasp.org/www-project-agentic-skills-top-10/ast08.html),
