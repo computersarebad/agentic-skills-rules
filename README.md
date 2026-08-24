@@ -137,6 +137,21 @@ matches remediation docs like "run `sudo apt install python3-venv`", and
 `skill-unpinned-dependency-install` fires on any tutorial-style install
 command — so treat them as review queues, not verdicts.
 
+### Known false-positive classes
+
+- **Negated guardrail phrasing** (`skill-prompt-injection-phrases`): rules that
+  *forbid* concealment — "never delete without asking the user", "do not
+  pretend you ran them" — match the same patterns as directives that instruct
+  it. Regex cannot reliably resolve negation scope; check whether the sentence
+  directs or prohibits the behavior.
+- **Skills whose declared purpose is the flagged behavior**: an onboarding
+  skill that updates `copilot-instructions.md` will trigger
+  `skill-agent-identity-write`; a credential-rotation skill will trigger
+  `skill-credential-file-access`. The rules intentionally surface these for
+  conscious approval rather than trying to infer intent.
+- **Emoji zero-width joiners** (`skill-hidden-unicode`): handled — ZWJ is only
+  flagged when adjacent to ASCII text, so emoji sequences like 🏴‍☠️ don't fire.
+
 ### What static rules cannot catch
 
 Per [AST08 — Poor Scanning](https://owasp.org/www-project-agentic-skills-top-10/ast08.html),

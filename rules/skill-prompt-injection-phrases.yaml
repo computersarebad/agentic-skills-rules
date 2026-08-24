@@ -6,7 +6,10 @@ rules:
       This skill contains classic prompt-injection or concealment phrasing (instruction
       overrides, directives to hide actions from the user). Legitimate skills have no reason
       to suppress user visibility or override prior instructions (OWASP AST04 - Insecure
-      Metadata / AST08 - Poor Scanning, checklist items 4.1 and 8.2).
+      Metadata / AST08 - Poor Scanning, checklist items 4.1 and 8.2). Triage note: guardrail
+      phrasing that PROHIBITS the behavior (e.g. "never delete without asking the user",
+      "do not pretend you ran them") matches these patterns too - check whether the
+      sentence directs the concealment or forbids it.
     languages:
       - generic
     severity: WARNING
