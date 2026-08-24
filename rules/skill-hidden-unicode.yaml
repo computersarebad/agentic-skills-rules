@@ -1,13 +1,14 @@
 rules:
   - id: skill-hidden-unicode
     patterns:
-      - pattern-regex: '[\x{200B}\x{200C}\x{200D}\x{200E}\x{200F}\x{2060}\x{FEFF}\x{202A}\x{202B}\x{202C}\x{202D}\x{202E}\x{2066}\x{2067}\x{2068}\x{2069}]'
+      - pattern-regex: '([\x{200B}\x{200C}\x{200E}\x{200F}\x{2060}\x{FEFF}\x{202A}\x{202B}\x{202C}\x{202D}\x{202E}\x{2066}\x{2067}\x{2068}\x{2069}]|(?<=[\x00-\x7F])\x{200D}|\x{200D}(?=[\x00-\x7F]))'
     message: >-
       This skill file contains zero-width or bidirectional-control Unicode characters. These
       are invisible in most editors and are used for ASCII smuggling - hiding instructions
       from human reviewers while remaining readable to the model (OWASP AST04 - Insecure
       Metadata, checklist item 4.2). Confirmed in-the-wild in Snyk's toxicskills-goof samples.
-      Remove all invisible characters from skill files.
+      Remove all invisible characters from skill files. (Zero-width joiners inside emoji
+      sequences are legitimate and are not flagged; a ZWJ adjacent to ASCII text is.)
     languages:
       - generic
     severity: WARNING
