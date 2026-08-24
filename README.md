@@ -65,7 +65,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: computersarebad/agentic-skills-rules
-          ref: main # pin to a tag or commit SHA for reproducible scans
+          ref: v1.1.0 # pin to the latest release tag for reproducible scans
           path: .agentic-skills-rules
           persist-credentials: false
       - name: Run Semgrep
