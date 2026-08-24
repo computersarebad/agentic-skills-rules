@@ -1,0 +1,35 @@
+rules:
+  - id: skill-browser-data-paths
+    patterns:
+      - pattern-regex: '(Login Data|key4\.db|logins\.json|cookies\.sqlite|places\.sqlite|Library/Application Support/Google/Chrome|AppData/(Local|Roaming)/(Google/Chrome|Mozilla)|Mozilla/Firefox/Profiles|BraveSoftware/Brave-Browser)'
+    message: >-
+      This skill references browser profile data paths (saved logins, cookies, history
+      databases). Browser data was a primary target of the ClawHavoc credential-stealer
+      campaign (OWASP AST03 - Over-Privileged Skills, checklist item 3.8). No routine agent
+      skill needs these paths.
+    languages:
+      - generic
+    severity: WARNING
+    paths:
+      include:
+        - "**/SKILL.md"
+        - "**/skills/**"
+        - "**/*.skill.md"
+        - "**/skill-browser-data-paths.test.md"
+    metadata:
+      source: https://github.com/computersarebad/agentic-skills-rules/blob/main/rules/skill-browser-data-paths.yaml
+      shortDescription: "Agent skill references browser credential/cookie storage"
+      category: security
+      confidence: HIGH
+      technology:
+        - agent-skills
+        - markdown
+      owasp-agentic-skills-top-10:
+        - AST03
+      owasp-ast10-checklist-items:
+        - "3.8"
+      cwe:
+        - "CWE-522: Insufficiently Protected Credentials"
+      references:
+        - https://owasp.org/www-project-agentic-skills-top-10/ast03.html
+      license: MIT

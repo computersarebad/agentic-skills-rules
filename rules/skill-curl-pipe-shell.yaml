@@ -1,0 +1,36 @@
+rules:
+  - id: skill-curl-pipe-shell
+    patterns:
+      - pattern-regex: '(curl|wget)[^|\n]*\|\s*(sudo\s+)?(ba|z)?sh\b'
+    message: >-
+      This skill instructs the agent to download and execute a remote script in a single step
+      (curl/wget piped to a shell). This is the primary payload-delivery vector observed in
+      the ClawHavoc malicious-skill campaign (OWASP AST01 - Malicious Skills). Download the
+      script to a file, review it, verify its checksum, and execute it explicitly instead.
+    languages:
+      - generic
+    severity: WARNING
+    paths:
+      include:
+        - "**/SKILL.md"
+        - "**/skills/**"
+        - "**/*.skill.md"
+        - "**/skill-curl-pipe-shell.test.md"
+    metadata:
+      source: https://github.com/computersarebad/agentic-skills-rules/blob/main/rules/skill-curl-pipe-shell.yaml
+      shortDescription: "Agent skill pipes remote script directly into a shell"
+      category: security
+      confidence: HIGH
+      technology:
+        - agent-skills
+        - markdown
+      owasp-agentic-skills-top-10:
+        - AST01
+      owasp-ast10-checklist-items:
+        - "1.4"
+      cwe:
+        - "CWE-494: Download of Code Without Integrity Check"
+      references:
+        - https://owasp.org/www-project-agentic-skills-top-10/ast01.html
+        - https://owasp.org/www-project-agentic-skills-top-10/checklist.html
+      license: MIT

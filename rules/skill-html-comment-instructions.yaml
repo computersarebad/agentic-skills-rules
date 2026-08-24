@@ -1,0 +1,35 @@
+rules:
+  - id: skill-html-comment-instructions
+    patterns:
+      - pattern-regex: '(?i)<!--[^\n]*\b(run|execute|ignore previous|always|never|must|do not|curl|fetch)\b[^\n]*-->'
+    message: >-
+      This skill contains an HTML comment with instruction-like content. HTML comments are
+      invisible in rendered Markdown but fully visible to the model - a common technique for
+      hiding directives from human reviewers (OWASP AST04 - Insecure Metadata, checklist item
+      4.2). Review the comment content and remove hidden instructions.
+    languages:
+      - generic
+    severity: WARNING
+    paths:
+      include:
+        - "**/SKILL.md"
+        - "**/skills/**"
+        - "**/*.skill.md"
+        - "**/skill-html-comment-instructions.test.md"
+    metadata:
+      source: https://github.com/computersarebad/agentic-skills-rules/blob/main/rules/skill-html-comment-instructions.yaml
+      shortDescription: "Agent skill hides instruction-like content in HTML comments"
+      category: security
+      confidence: HIGH
+      technology:
+        - agent-skills
+        - markdown
+      owasp-agentic-skills-top-10:
+        - AST04
+      owasp-ast10-checklist-items:
+        - "4.2"
+      cwe:
+        - "CWE-1007: Insufficient Visual Distinction of Homoglyphs Presented to User"
+      references:
+        - https://owasp.org/www-project-agentic-skills-top-10/ast04.html
+      license: MIT

@@ -1,0 +1,38 @@
+rules:
+  - id: skill-base64-decode-exec
+    patterns:
+      - pattern-regex: 'base64\s+(-d|-D|--decode)\b[^\n]*\|\s*(sudo\s+)?(ba|z)?sh\b'
+    message: >-
+      This skill decodes base64 content and pipes it into a shell. Encoded payloads executed
+      at runtime are a hallmark of malicious skills designed to evade pattern-based review
+      (OWASP AST01 - Malicious Skills, AST04 - Insecure Metadata, checklist items 1.4 and
+      4.2). Skill instructions should contain only plaintext, reviewable commands.
+    languages:
+      - generic
+    severity: WARNING
+    paths:
+      include:
+        - "**/SKILL.md"
+        - "**/skills/**"
+        - "**/*.skill.md"
+        - "**/skill-base64-decode-exec.test.md"
+    metadata:
+      source: https://github.com/computersarebad/agentic-skills-rules/blob/main/rules/skill-base64-decode-exec.yaml
+      shortDescription: "Agent skill executes base64-decoded payload in a shell"
+      category: security
+      confidence: HIGH
+      technology:
+        - agent-skills
+        - markdown
+      owasp-agentic-skills-top-10:
+        - AST01
+        - AST04
+      owasp-ast10-checklist-items:
+        - "1.4"
+        - "4.2"
+      cwe:
+        - "CWE-506: Embedded Malicious Code"
+      references:
+        - https://owasp.org/www-project-agentic-skills-top-10/ast01.html
+        - https://owasp.org/www-project-agentic-skills-top-10/ast04.html
+      license: MIT

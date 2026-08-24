@@ -1,0 +1,35 @@
+rules:
+  - id: skill-exfil-endpoint
+    patterns:
+      - pattern-regex: '(webhook\.site|discord(app)?\.com/api/webhooks|api\.telegram\.org/bot|pastebin\.com/(api|raw)|requestbin|pipedream\.net|\.ngrok(-free)?\.(io|app)|interact\.sh|oastify\.com|burpcollaborator\.net|transfer\.sh)'
+    message: >-
+      This skill references a known data-exfiltration or attacker-callback endpoint
+      (disposable webhooks, paste services, tunneling domains). These services are the
+      standard exfiltration channel in malicious-skill campaigns (OWASP AST01 - Malicious
+      Skills). Verify why the skill communicates with this endpoint.
+    languages:
+      - generic
+    severity: WARNING
+    paths:
+      include:
+        - "**/SKILL.md"
+        - "**/skills/**"
+        - "**/*.skill.md"
+        - "**/skill-exfil-endpoint.test.md"
+    metadata:
+      source: https://github.com/computersarebad/agentic-skills-rules/blob/main/rules/skill-exfil-endpoint.yaml
+      shortDescription: "Agent skill references known exfiltration/callback endpoint"
+      category: security
+      confidence: HIGH
+      technology:
+        - agent-skills
+        - markdown
+      owasp-agentic-skills-top-10:
+        - AST01
+      owasp-ast10-checklist-items:
+        - "1.4"
+      cwe:
+        - "CWE-201: Insertion of Sensitive Information Into Sent Data"
+      references:
+        - https://owasp.org/www-project-agentic-skills-top-10/ast01.html
+      license: MIT

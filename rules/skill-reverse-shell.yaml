@@ -1,0 +1,34 @@
+rules:
+  - id: skill-reverse-shell
+    patterns:
+      - pattern-regex: '(/dev/tcp/\d|bash\s+-i\s+>&|nc(\.exe)?\s+[^\n]*-e\s+\S*sh\b|ncat\s+[^\n]*(--exec|-e)\s|mkfifo\s+[^\n]*\|\s*(ba|z)?sh\b|socat\s+[^\n]*exec)'
+    message: >-
+      This skill contains a reverse-shell primitive (/dev/tcp redirection, nc -e, mkfifo pipe,
+      or socat exec). There is no legitimate reason for an agent skill to open an interactive
+      shell back to a remote host (OWASP AST01 - Malicious Skills).
+    languages:
+      - generic
+    severity: WARNING
+    paths:
+      include:
+        - "**/SKILL.md"
+        - "**/skills/**"
+        - "**/*.skill.md"
+        - "**/skill-reverse-shell.test.md"
+    metadata:
+      source: https://github.com/computersarebad/agentic-skills-rules/blob/main/rules/skill-reverse-shell.yaml
+      shortDescription: "Agent skill contains reverse shell primitive"
+      category: security
+      confidence: HIGH
+      technology:
+        - agent-skills
+        - markdown
+      owasp-agentic-skills-top-10:
+        - AST01
+      owasp-ast10-checklist-items:
+        - "1.4"
+      cwe:
+        - "CWE-506: Embedded Malicious Code"
+      references:
+        - https://owasp.org/www-project-agentic-skills-top-10/ast01.html
+      license: MIT

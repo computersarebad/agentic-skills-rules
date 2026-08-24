@@ -1,0 +1,35 @@
+rules:
+  - id: skill-ip-literal-url
+    patterns:
+      - pattern-regex: 'https?://(?!127\.0\.0\.1|0\.0\.0\.0|localhost)\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}'
+    message: >-
+      This skill fetches from or references a raw IP address URL instead of a domain.
+      Hardcoded IP endpoints evade domain allowlists and reputation checks; the ClawHavoc
+      campaign used a single C2 IP (91.92.242.30) across 335 malicious skills (OWASP AST01 -
+      Malicious Skills). Require a named, allowlisted domain.
+    languages:
+      - generic
+    severity: WARNING
+    paths:
+      include:
+        - "**/SKILL.md"
+        - "**/skills/**"
+        - "**/*.skill.md"
+        - "**/skill-ip-literal-url.test.md"
+    metadata:
+      source: https://github.com/computersarebad/agentic-skills-rules/blob/main/rules/skill-ip-literal-url.yaml
+      shortDescription: "Agent skill references raw IP address URL"
+      category: security
+      confidence: HIGH
+      technology:
+        - agent-skills
+        - markdown
+      owasp-agentic-skills-top-10:
+        - AST01
+      owasp-ast10-checklist-items:
+        - "1.4"
+      cwe:
+        - "CWE-829: Inclusion of Functionality from Untrusted Control Sphere"
+      references:
+        - https://owasp.org/www-project-agentic-skills-top-10/ast01.html
+      license: MIT

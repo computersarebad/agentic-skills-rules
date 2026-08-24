@@ -1,0 +1,35 @@
+rules:
+  - id: skill-shell-profile-persistence
+    patterns:
+      - pattern-regex: '(>>\s*~/\.(bashrc|zshrc|bash_profile|profile)\b|\|\s*crontab\s*-|crontab\s+/\S+|launchctl\s+(load|bootstrap)|Library/LaunchAgents|/etc/systemd/system/|\.config/systemd/user/)'
+    message: >-
+      This skill establishes persistence outside the agent sandbox by appending to shell
+      profiles, installing crontab entries, or registering LaunchAgents/systemd units.
+      Instructions written to these locations survive skill removal and execute outside agent
+      supervision (OWASP AST01 - Malicious Skills, checklist item 1.6).
+    languages:
+      - generic
+    severity: WARNING
+    paths:
+      include:
+        - "**/SKILL.md"
+        - "**/skills/**"
+        - "**/*.skill.md"
+        - "**/skill-shell-profile-persistence.test.md"
+    metadata:
+      source: https://github.com/computersarebad/agentic-skills-rules/blob/main/rules/skill-shell-profile-persistence.yaml
+      shortDescription: "Agent skill writes shell-profile/cron/service persistence"
+      category: security
+      confidence: HIGH
+      technology:
+        - agent-skills
+        - markdown
+      owasp-agentic-skills-top-10:
+        - AST01
+      owasp-ast10-checklist-items:
+        - "1.6"
+      cwe:
+        - "CWE-506: Embedded Malicious Code"
+      references:
+        - https://owasp.org/www-project-agentic-skills-top-10/ast01.html
+      license: MIT

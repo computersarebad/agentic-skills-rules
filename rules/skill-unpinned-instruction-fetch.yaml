@@ -1,0 +1,39 @@
+rules:
+  - id: skill-unpinned-instruction-fetch
+    patterns:
+      - pattern-either:
+          - pattern-regex: 'raw\.githubusercontent\.com/[^\s)]+/(main|master|HEAD)/'
+          - pattern-regex: '(?i)(follow|apply|use) the (instructions|latest (instructions|prompt|rules|guidance)) (at|in|from) http'
+    message: >-
+      This skill fetches instructions or content from a mutable external reference (branch-
+      pinned raw GitHub URL or a 'follow the instructions at' directive). Mutable references
+      let a compromised upstream silently change skill behavior after review (OWASP AST05 -
+      Untrusted External Instructions, checklist items 5.2 and 5.4). Pin to a commit SHA or
+      inline the content.
+    languages:
+      - generic
+    severity: WARNING
+    paths:
+      include:
+        - "**/SKILL.md"
+        - "**/skills/**"
+        - "**/*.skill.md"
+        - "**/skill-unpinned-instruction-fetch.test.md"
+    metadata:
+      source: https://github.com/computersarebad/agentic-skills-rules/blob/main/rules/skill-unpinned-instruction-fetch.yaml
+      shortDescription: "Agent skill fetches instructions from mutable external reference"
+      category: security
+      confidence: MEDIUM
+      technology:
+        - agent-skills
+        - markdown
+      owasp-agentic-skills-top-10:
+        - AST05
+      owasp-ast10-checklist-items:
+        - "5.2"
+        - "5.4"
+      cwe:
+        - "CWE-829: Inclusion of Functionality from Untrusted Control Sphere"
+      references:
+        - https://owasp.org/www-project-agentic-skills-top-10/ast05.html
+      license: MIT

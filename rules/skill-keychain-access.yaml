@@ -1,0 +1,35 @@
+rules:
+  - id: skill-keychain-access
+    patterns:
+      - pattern-regex: '(security\s+(find-generic-password|find-internet-password|dump-keychain)|secret-tool\s+(lookup|search)|cmdkey\s+/list|VaultCmd|Get-StoredCredential|login\.keychain|keychain\.db)'
+    message: >-
+      This skill accesses OS credential stores (macOS Keychain, libsecret, Windows Credential
+      Manager). Unless credential management is the skill's explicitly declared purpose, this
+      is over-privilege or credential theft (OWASP AST03 - Over-Privileged Skills, checklist
+      item 3.8).
+    languages:
+      - generic
+    severity: WARNING
+    paths:
+      include:
+        - "**/SKILL.md"
+        - "**/skills/**"
+        - "**/*.skill.md"
+        - "**/skill-keychain-access.test.md"
+    metadata:
+      source: https://github.com/computersarebad/agentic-skills-rules/blob/main/rules/skill-keychain-access.yaml
+      shortDescription: "Agent skill accesses OS keychain/credential store"
+      category: security
+      confidence: HIGH
+      technology:
+        - agent-skills
+        - markdown
+      owasp-agentic-skills-top-10:
+        - AST03
+      owasp-ast10-checklist-items:
+        - "3.8"
+      cwe:
+        - "CWE-522: Insufficiently Protected Credentials"
+      references:
+        - https://owasp.org/www-project-agentic-skills-top-10/ast03.html
+      license: MIT

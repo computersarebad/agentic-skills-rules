@@ -1,0 +1,40 @@
+rules:
+  - id: skill-hidden-unicode
+    patterns:
+      - pattern-regex: '[\x{200B}\x{200C}\x{200D}\x{200E}\x{200F}\x{2060}\x{FEFF}\x{202A}\x{202B}\x{202C}\x{202D}\x{202E}\x{2066}\x{2067}\x{2068}\x{2069}]'
+    message: >-
+      This skill file contains zero-width or bidirectional-control Unicode characters. These
+      are invisible in most editors and are used for ASCII smuggling - hiding instructions
+      from human reviewers while remaining readable to the model (OWASP AST04 - Insecure
+      Metadata, checklist item 4.2). Confirmed in-the-wild in Snyk's toxicskills-goof samples.
+      Remove all invisible characters from skill files.
+    languages:
+      - generic
+    severity: WARNING
+    paths:
+      # Restricted to Markdown instruction files: skill bundles often vendor
+      # binary-adjacent assets (XML schemas, fonts, fixtures) where BOMs and
+      # format-control characters are legitimate and produce pure noise.
+      include:
+        - "**/SKILL.md"
+        - "**/skills/**/*.md"
+        - "**/*.skill.md"
+        - "**/skill-hidden-unicode.test.md"
+    metadata:
+      source: https://github.com/computersarebad/agentic-skills-rules/blob/main/rules/skill-hidden-unicode.yaml
+      shortDescription: "Agent skill contains invisible Unicode (ASCII smuggling)"
+      category: security
+      confidence: HIGH
+      technology:
+        - agent-skills
+        - markdown
+      owasp-agentic-skills-top-10:
+        - AST04
+      owasp-ast10-checklist-items:
+        - "4.2"
+      cwe:
+        - "CWE-1007: Insufficient Visual Distinction of Homoglyphs Presented to User"
+      references:
+        - https://owasp.org/www-project-agentic-skills-top-10/ast04.html
+        - https://trojansource.codes/
+      license: MIT

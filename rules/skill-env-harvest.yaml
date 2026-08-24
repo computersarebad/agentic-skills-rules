@@ -1,0 +1,35 @@
+rules:
+  - id: skill-env-harvest
+    patterns:
+      - pattern-regex: '(printenv\b|\benv\s*\||\benv\s*>|echo[^\n]*\$\{?(GITHUB_TOKEN|GH_TOKEN|AWS_SECRET_ACCESS_KEY|AWS_ACCESS_KEY_ID|OPENAI_API_KEY|ANTHROPIC_API_KEY|NPM_TOKEN|COPILOT_TOKEN)|JSON\.stringify\(\s*process\.env\s*\))'
+    message: >-
+      This skill dumps environment variables or echoes secret-bearing variables (GITHUB_TOKEN,
+      AWS keys, API keys). Environment harvesting beyond a skill's stated function is a
+      primary credential-theft technique (OWASP AST03 - Over-Privileged Skills, checklist item
+      3.8).
+    languages:
+      - generic
+    severity: WARNING
+    paths:
+      include:
+        - "**/SKILL.md"
+        - "**/skills/**"
+        - "**/*.skill.md"
+        - "**/skill-env-harvest.test.md"
+    metadata:
+      source: https://github.com/computersarebad/agentic-skills-rules/blob/main/rules/skill-env-harvest.yaml
+      shortDescription: "Agent skill dumps environment variables or echoes secrets"
+      category: security
+      confidence: HIGH
+      technology:
+        - agent-skills
+        - markdown
+      owasp-agentic-skills-top-10:
+        - AST03
+      owasp-ast10-checklist-items:
+        - "3.8"
+      cwe:
+        - "CWE-526: Cleartext Storage of Sensitive Information in an Environment Variable"
+      references:
+        - https://owasp.org/www-project-agentic-skills-top-10/ast03.html
+      license: MIT

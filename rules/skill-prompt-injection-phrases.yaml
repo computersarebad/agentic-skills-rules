@@ -1,0 +1,38 @@
+rules:
+  - id: skill-prompt-injection-phrases
+    patterns:
+      - pattern-regex: '(?i)(ignore (all )?(previous|prior|earlier) (instructions|messages|rules)|do not (tell|inform|mention|reveal|show)[^\n]{0,40}\b(user|human)|without (asking|informing|notifying)[^\n]{0,30}\buser|hide this from|do not mention this|keep this (a )?secret|pretend (that )?you)'
+    message: >-
+      This skill contains classic prompt-injection or concealment phrasing (instruction
+      overrides, directives to hide actions from the user). Legitimate skills have no reason
+      to suppress user visibility or override prior instructions (OWASP AST04 - Insecure
+      Metadata / AST08 - Poor Scanning, checklist items 4.1 and 8.2).
+    languages:
+      - generic
+    severity: WARNING
+    paths:
+      include:
+        - "**/SKILL.md"
+        - "**/skills/**"
+        - "**/*.skill.md"
+        - "**/skill-prompt-injection-phrases.test.md"
+    metadata:
+      source: https://github.com/computersarebad/agentic-skills-rules/blob/main/rules/skill-prompt-injection-phrases.yaml
+      shortDescription: "Agent skill contains prompt-injection or concealment phrasing"
+      category: security
+      confidence: MEDIUM
+      technology:
+        - agent-skills
+        - markdown
+      owasp-agentic-skills-top-10:
+        - AST04
+        - AST08
+      owasp-ast10-checklist-items:
+        - "4.1"
+        - "8.2"
+      cwe:
+        - "CWE-1427: Improper Neutralization of Input Used for LLM Prompting"
+      references:
+        - https://owasp.org/www-project-agentic-skills-top-10/ast04.html
+        - https://owasp.org/www-project-agentic-skills-top-10/ast08.html
+      license: MIT

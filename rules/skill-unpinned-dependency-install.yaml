@@ -1,0 +1,38 @@
+rules:
+  - id: skill-unpinned-dependency-install
+    patterns:
+      - pattern-either:
+          - pattern-regex: 'pip3?\s+install\s+(?!(-r|\.))(?![^\n]*==)[A-Za-z][\w.-]*'
+          - pattern-regex: 'npm\s+(install|i)\s+(?![^\n]*@\d)(-g\s+)?[A-Za-z@][\w@/.-]*'
+          - pattern-regex: 'gem\s+install\s+(?![^\n]*(-v|--version))[A-Za-z][\w.-]*'
+    message: >-
+      This skill installs a dependency without pinning to an exact version. Unpinned installs
+      resolve to whatever the registry serves at run time, enabling supply-chain substitution
+      after review (OWASP AST02 - Supply Chain Compromise, checklist item 2.3). Pin exact
+      versions (pkg==1.2.3, pkg@1.2.3) or install from a lockfile.
+    languages:
+      - generic
+    severity: WARNING
+    paths:
+      include:
+        - "**/SKILL.md"
+        - "**/skills/**"
+        - "**/*.skill.md"
+        - "**/skill-unpinned-dependency-install.test.md"
+    metadata:
+      source: https://github.com/computersarebad/agentic-skills-rules/blob/main/rules/skill-unpinned-dependency-install.yaml
+      shortDescription: "Agent skill installs unpinned dependency at runtime"
+      category: security
+      confidence: MEDIUM
+      technology:
+        - agent-skills
+        - markdown
+      owasp-agentic-skills-top-10:
+        - AST02
+      owasp-ast10-checklist-items:
+        - "2.3"
+      cwe:
+        - "CWE-1357: Reliance on Insufficiently Trustworthy Component"
+      references:
+        - https://owasp.org/www-project-agentic-skills-top-10/ast02.html
+      license: MIT

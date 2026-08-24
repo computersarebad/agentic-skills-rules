@@ -1,0 +1,34 @@
+rules:
+  - id: skill-url-shortener
+    patterns:
+      - pattern-regex: 'https?://(bit\.ly|tinyurl\.com|t\.co|goo\.gl|is\.gd|buff\.ly|rb\.gy|shorturl\.at|cutt\.ly|tiny\.cc)/'
+    message: >-
+      This skill references a URL shortener. Shortened links hide the true destination from
+      reviewers and can be re-pointed after review (OWASP AST05 - Untrusted External
+      Instructions, checklist item 5.4). Use the full, allowlisted destination URL.
+    languages:
+      - generic
+    severity: WARNING
+    paths:
+      include:
+        - "**/SKILL.md"
+        - "**/skills/**"
+        - "**/*.skill.md"
+        - "**/skill-url-shortener.test.md"
+    metadata:
+      source: https://github.com/computersarebad/agentic-skills-rules/blob/main/rules/skill-url-shortener.yaml
+      shortDescription: "Agent skill uses URL shortener hiding true destination"
+      category: security
+      confidence: MEDIUM
+      technology:
+        - agent-skills
+        - markdown
+      owasp-agentic-skills-top-10:
+        - AST05
+      owasp-ast10-checklist-items:
+        - "5.4"
+      cwe:
+        - "CWE-829: Inclusion of Functionality from Untrusted Control Sphere"
+      references:
+        - https://owasp.org/www-project-agentic-skills-top-10/ast05.html
+      license: MIT

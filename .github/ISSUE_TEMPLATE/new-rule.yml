@@ -1,0 +1,31 @@
+name: New rule proposal
+description: Propose a new detection rule
+title: "[Rule] "
+labels: [new-rule]
+body:
+  - type: textarea
+    id: pattern
+    attributes:
+      label: What should be detected
+      description: The malicious or risky pattern, with an example snippet that should match.
+      render: markdown
+    validations:
+      required: true
+  - type: input
+    id: ast10
+    attributes:
+      label: AST10 risk and checklist item(s)
+      description: See https://owasp.org/www-project-agentic-skills-top-10/checklist.html
+      placeholder: AST01, checklist 1.4
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Real-world evidence
+      description: Links to campaigns, advisories, or samples showing this pattern in the wild (optional but strengthens the case).
+  - type: textarea
+    id: benign
+    attributes:
+      label: Known benign look-alikes
+      description: Legitimate patterns the rule must not flag.

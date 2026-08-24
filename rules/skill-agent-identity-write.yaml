@@ -1,0 +1,39 @@
+rules:
+  - id: skill-agent-identity-write
+    patterns:
+      - pattern-regex: '(?i)\b(write|append|add|insert|edit|modify|update)\b[^\n]{0,80}\b(AGENTS\.md|MEMORY\.md|SOUL\.md|CLAUDE\.md|copilot-instructions\.md)'
+    message: >-
+      This skill instructs the agent to modify agent identity or memory files (AGENTS.md,
+      MEMORY.md, SOUL.md, CLAUDE.md, copilot-instructions.md). Writing to these files enables
+      session-persistent backdooring - malicious instructions survive after the skill is
+      removed (OWASP AST01 checklist item 1.6 / AST03 item 3.6, observed in the ClawHavoc
+      campaign). Such writes require explicit justification and elevated review.
+    languages:
+      - generic
+    severity: WARNING
+    paths:
+      include:
+        - "**/SKILL.md"
+        - "**/skills/**"
+        - "**/*.skill.md"
+        - "**/skill-agent-identity-write.test.md"
+    metadata:
+      source: https://github.com/computersarebad/agentic-skills-rules/blob/main/rules/skill-agent-identity-write.yaml
+      shortDescription: "Agent skill writes to agent identity/memory files (persistence risk)"
+      category: security
+      confidence: HIGH
+      technology:
+        - agent-skills
+        - markdown
+      owasp-agentic-skills-top-10:
+        - AST01
+        - AST03
+      owasp-ast10-checklist-items:
+        - "1.6"
+        - "3.6"
+      cwe:
+        - "CWE-829: Inclusion of Functionality from Untrusted Control Sphere"
+      references:
+        - https://owasp.org/www-project-agentic-skills-top-10/ast01.html
+        - https://owasp.org/www-project-agentic-skills-top-10/ast03.html
+      license: MIT

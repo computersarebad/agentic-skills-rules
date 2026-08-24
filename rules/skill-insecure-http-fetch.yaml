@@ -1,0 +1,38 @@
+rules:
+  - id: skill-insecure-http-fetch
+    patterns:
+      - pattern-regex: '(curl|wget|fetch|Invoke-WebRequest|urllib|requests\.get)[^\n]*http://(?!localhost|127\.0\.0\.1|0\.0\.0\.0)'
+    message: >-
+      This skill instructs the agent to fetch content over unencrypted HTTP. Runtime-fetched
+      instructions or tooling over cleartext channels can be tampered with in transit, and
+      unpinned external references are a known skill-compromise vector (OWASP AST05 -
+      Untrusted External Instructions, checklist items 5.2 and 5.4). Use HTTPS and pin fetched
+      content to a checksum, or inline the content into the skill package.
+    languages:
+      - generic
+    severity: WARNING
+    paths:
+      include:
+        - "**/SKILL.md"
+        - "**/skills/**"
+        - "**/*.skill.md"
+        - "**/skill-insecure-http-fetch.test.md"
+    metadata:
+      source: https://github.com/computersarebad/agentic-skills-rules/blob/main/rules/skill-insecure-http-fetch.yaml
+      shortDescription: "Agent skill fetches external content over cleartext HTTP"
+      category: security
+      confidence: HIGH
+      technology:
+        - agent-skills
+        - markdown
+      owasp-agentic-skills-top-10:
+        - AST05
+      owasp-ast10-checklist-items:
+        - "5.2"
+        - "5.4"
+      cwe:
+        - "CWE-319: Cleartext Transmission of Sensitive Information"
+      references:
+        - https://owasp.org/www-project-agentic-skills-top-10/ast05.html
+        - https://owasp.org/www-project-agentic-skills-top-10/checklist.html
+      license: MIT

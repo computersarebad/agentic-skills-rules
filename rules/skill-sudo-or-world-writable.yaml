@@ -1,0 +1,35 @@
+rules:
+  - id: skill-sudo-or-world-writable
+    patterns:
+      - pattern-regex: '(sudo\s+[a-z/]|chmod\s+(-R\s+)?0?777\b|chmod\s+(-R\s+)?a\+rwx)'
+    message: >-
+      This skill escalates privileges (sudo) or sets world-writable permissions (chmod 777).
+      Agent skills should operate with least privilege; root access or permission loosening
+      beyond the stated function is over-privilege (OWASP AST03 - Over-Privileged Skills,
+      checklist item 3.2).
+    languages:
+      - generic
+    severity: WARNING
+    paths:
+      include:
+        - "**/SKILL.md"
+        - "**/skills/**"
+        - "**/*.skill.md"
+        - "**/skill-sudo-or-world-writable.test.md"
+    metadata:
+      source: https://github.com/computersarebad/agentic-skills-rules/blob/main/rules/skill-sudo-or-world-writable.yaml
+      shortDescription: "Agent skill uses sudo or sets world-writable permissions"
+      category: security
+      confidence: MEDIUM
+      technology:
+        - agent-skills
+        - markdown
+      owasp-agentic-skills-top-10:
+        - AST03
+      owasp-ast10-checklist-items:
+        - "3.2"
+      cwe:
+        - "CWE-732: Incorrect Permission Assignment for Critical Resource"
+      references:
+        - https://owasp.org/www-project-agentic-skills-top-10/ast03.html
+      license: MIT
